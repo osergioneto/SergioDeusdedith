@@ -1,4 +1,4 @@
-## [NOME CANDIDATO]
+## Sérgio Deusdedith
 **Globo.com: coding challenge**
 
 ====================
