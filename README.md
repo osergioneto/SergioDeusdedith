@@ -73,10 +73,40 @@ Envie as instruções necessárias para rodar o projeto localmente, incluindo to
 1. As funcionalidades listadas anteriormente devem estar presentes na sua solução.
 2. Seu código será observado por uma equipe de desenvolvedores que avaliarão a simplicidade e clareza da solução, a arquitetura, documentação, estilo de código, testes automatizados, o design e a implementação do código.
 
-=============
+===============================================
 #### Dicas
 
 - Você pode usar ferramentas e bibliotecas open source, mas documente as decisões e os porquês. Considere que queremos entender a forma como você resolveria o problema, portanto, terceirizar para libs suas regras de negócio pode não ser uma boa ideia;
 - Automatize tudo que for possível;
 - Se sentir que poderia ter feito algo de uma forma melhor porém o tempo não permitiu, fique a vontade para criar um arquivo `.md` e compartilhar essas ideias;
 - Em caso de dúvidas, pergunte.
+
+===============================================
+
+## Regras de Commit
+
+Formato: `<tipo> (<escopo>): <assunto>`
+
+`<escopo>` é opcional
+
+
+### Exemplo
+
+```
+feat: add red hat  //adiciona chapéu vermelho
+^--^  ^---------^
+|     |
+|     +-> Resumo no tempo presente.
+|
++-------> Tipos: chore, docs, feat, fix, refactor, style, ou test.
+```
+
+Mais exemplos:
+
+- `feat`: (nova feature para o usuário, não uma nova feature para script de build)
+- `fix`: (correção de bug para o usuário, não correção para um script de build)
+- `docs`: (mudanças em documentação)
+- `style`: (formatação, ponto e vírgula faltando e etc; sem alteração do código de produção) 
+- `refactor`: (refatorar o código de produção, ex.: renomear uma variável)
+- `test`: (adicionar testes ausentes, testes de refatoração; nenhuma alteração no código de produção)
+- `chore`: (atualização de tarefas do grunt, CI/CD, etc; sem alteração do código de produção)
