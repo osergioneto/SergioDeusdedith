@@ -1,0 +1,8 @@
+type Status {
+  descricao: String
+  status_id: String
+}
+
+type Query {
+  equipes(id: String!): Status
+}
