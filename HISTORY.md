@@ -6,3 +6,7 @@ Ao ler o desafio da primeira vez pensei em fazer um BFF utilizando GraphQL. Com 
 
 Rascunho da primeira arquitetura:
 ![](images/globo.jpg)
+
+Refs: 
+- https://samnewman.io/patterns/architectural/bff/
+- https://thenewstack.io/bffs-developing-nprs-voice-user-interface-with-node-js/
