@@ -1,5 +1,5 @@
 import { ApolloServer, gql } from "apollo-server";
-import EsportesAPI from "./data-sources/EsportesAPI";
+import EsportesAPI from "./datasources/EsportesAPI";
 import 'apollo-cache-control';
 import responseCachePlugin from 'apollo-server-plugin-response-cache';
 import schema from "./schema";
