@@ -37,6 +37,7 @@ type Team {
   modalidade_id: ID!
 }
 
+
 type Result {
   resultados: Team!
   referencias: References!
