@@ -1,8 +1,48 @@
 type Status {
-  descricao: String
-  status_id: String
+  descricao: String!
+  status_id: String!
+}
+
+enum Gender { F, M }
+
+type Icons {
+  _60x60: String
+  _45x45: String
+  _30x30: String
+  svg: String
+}
+
+type Colors {
+  primaria: String
+  secundaria: String
+  terciaria: String
+}
+
+type Team {
+  status: Status!
+  genero: Gender!
+  nome: String!
+  nome_popular: String
+  cores: Colors
+  sigla: String!
+  apelido: String
+  slug: String
+  bandeiras: Icons
+  escudos: Icons
+  flamulas: Icons
+  categoria_id: ID!
+  organizacao_id: ID!
+  equipe_id: ID!
+  esporte_id: ID!
+  modalidade_id: ID!
+}
+
+type Result {
+  resultados: Team!
+  referencias: References!
+  paginacao: Pagination!
 }
 
 type Query {
-  equipes(id: String!): Status
+  equipes(id: ID!): Result
 }

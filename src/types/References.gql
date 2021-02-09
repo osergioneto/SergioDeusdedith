@@ -1,0 +1,33 @@
+type Categories {
+  nome: String!
+  slug: String
+  esporte_id: ID!
+  categoria_id: ID!
+}
+
+type Modalities {
+  nome: String!
+  slug: String
+  esporte_id: ID!
+  modalidade_id: ID!
+}
+
+type Sports {
+  esporte_id: ID!
+  nome: String!
+  slug: String
+}
+
+type Organization {
+  organizacao_id: ID!
+  fundacao: String!
+  nome: String!
+  escudos: Icons
+}
+
+type References {
+  organizacoes: [Organization!]
+  categorias: [Categories!]
+  modalidades: [Modalities!]
+  esportes: [Sports!]
+}

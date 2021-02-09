@@ -1,0 +1,8 @@
+type Pagination {
+  anterior: Int
+  paginas: Int
+  por_pagina: Int
+  proximo: String
+  pagina: Int
+  total: Int
+}
