@@ -2,8 +2,8 @@ import { References, Result } from "generated/api";
 
 export default {
   Query: {
-    equipes: async (_ctx: any, { id }: any, { dataSources }: any): Promise<Result> => {
-      const { resultados, referencias, paginacao }: Result = await dataSources.esportesAPI.getTeam(id);
+    campeonato: async (_ctx: any, { id }: any, { dataSources }: any): Promise<ChampionshipResult> => {
+      const { resultados, referencias, paginacao }: ChampionshipResult = await dataSources.esportesAPI.getChampionship(id);
       const parsedReferences = parseReferences(referencias);
 
       return {
@@ -11,7 +11,7 @@ export default {
         referencias: parsedReferences,
         paginacao
       };
-    }
+    },
   },
 }
 

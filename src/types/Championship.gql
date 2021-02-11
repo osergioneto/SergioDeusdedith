@@ -1,0 +1,16 @@
+type Championship {
+  campeonato_id: ID!
+  nome: String!
+  slug: String
+  genero: Gender
+}
+
+type ChampionshipResult {
+  resultados: Championship! 
+  referencias: References!
+  paginacao: Pagination!
+}
+
+type Query {
+  campeonato(id: ID!, page: Int): ChampionshipResult
+}

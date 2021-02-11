@@ -7,6 +7,7 @@ export default class EsportesAPI extends RESTDataSource {
   }
 
   async getTeam(id: number) {
-    return this.get(`equipes/${id}`);
+  async getChampionship(id: number, page = 1) {
+    return this.get(`esportes/futebol/modalidades/futebol_de_campo/categorias/profissional/campeonato/${id}`);
   }
 }
