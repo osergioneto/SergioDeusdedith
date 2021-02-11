@@ -48,6 +48,74 @@ describe('Teams', () => {
   });
 });
 
+describe('Championship', () => {
+  it.concurrent('fetches single championship', async () => {
+    const query = `
+            query {
+              campeonato(id: "26") {
+                resultados {
+                  campeonato_id
+                  nome
+                  slug
+                  genero
+                }
+                paginacao{
+                  pagina
+                  anterior
+                  paginas
+                  por_pagina
+                  total
+                }
+              }
+            }
+        `;
+
+    const res = await rp({ method: 'POST', uri, body: { query }, json: true });
+    expect(res.data).toEqual({
+      "campeonato": {
+        "resultados": {
+          "campeonato_id": "26",
+          "nome": "Campeonato Brasileiro",
+          "slug": "campeonato-brasileiro",
+          "genero": "M"
+        },
+        "paginacao": {
+          "anterior": null,
+          "paginas": 10,
+          "por_pagina": 20,
+          "pagina": 1,
+          "total": 188
+        }
+      }
+    });
+  });
+
+  it.concurrent('should throw when championship is not found', async () => {
+    const query = `
+            query {
+              campeonato(id: "0") {
+                resultados {
+                  campeonato_id
+                  nome
+                  slug
+                  genero
+                }
+                paginacao{
+                  pagina
+                  anterior
+                  paginas
+                  por_pagina
+                  total
+                }
+              }
+            }
+        `;
+
+    const res = await rp({ method: 'POST', uri, body: { query }, json: true });
+    expect(res.errors[0].message).toEqual("404: Not Found");
+  });
+});
+
 afterAll(async () => {
   // kill EsportesAPI
   // kill GraphQL BFF
