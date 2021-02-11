@@ -37,13 +37,12 @@ type Team {
   modalidade_id: ID!
 }
 
-
-type Result {
+type TeamResult {
   resultados: Team!
   referencias: References!
   paginacao: Pagination!
 }
 
 type Query {
-  equipes(id: ID!): Result
+  equipes(id: ID!): TeamResult
 }
