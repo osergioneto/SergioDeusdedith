@@ -25,9 +25,9 @@
     "@graphql-tools/schema": "^7.1.2",
     "apollo-datasource-rest": "^0.9.7",
     "apollo-server": "^2.19.2",
-    "apollo-server-plugin-response-cache": "^0.5.8",
     "apollo-server-testing": "^2.19.2",
-    "graphql": "^15.5.0"
+    "graphql": "^15.5.0",
+    "ioredis": "^4.22.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
@@ -36,6 +36,7 @@
     "@graphql-codegen/introspection": "1.18.1",
     "@graphql-codegen/typescript": "1.20.2",
     "@graphql-codegen/typescript-resolvers": "1.18.1",
+    "@types/ioredis": "^4.19.3",
     "@types/jest": "^26.0.20",
     "@types/request-promise": "^4.1.47",
     "@typescript-eslint/eslint-plugin": "^4.14.2",
