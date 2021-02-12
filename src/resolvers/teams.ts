@@ -1,4 +1,4 @@
-import { TeamResult, ChampionshipResult } from "generated/api";
+import { TeamResult, ChampionshipResult, GameResult } from "generated/api";
 
 export default {
   Query: {
@@ -14,6 +14,16 @@ export default {
     },
     campeonato: async (_ctx: any, { id }: any, { dataSources }: any): Promise<ChampionshipResult> => {
       const { resultados, referencias, paginacao }: ChampionshipResult = await dataSources.esportesAPI.getChampionship(id);
+      const parsedReferences = parseReferences(referencias);
+
+      return {
+        resultados,
+        referencias: parsedReferences,
+        paginacao
+      };
+    },
+    games: async (_ctx: any, { date }: any, { dataSources }: any): Promise<GameResult> => {
+      const { resultados, referencias, paginacao }: GameResult = await dataSources.esportesAPI.getGames(date);
       const parsedReferences = parseReferences(referencias);
 
       return {

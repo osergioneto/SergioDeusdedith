@@ -28,4 +28,10 @@ export default class EsportesAPI extends RESTDataSource {
 
     return champioship;
   }
+
+  async getGames(date: string) {
+    const games = await this.get(`esportes/futebol/modalidades/futebol_de_campo/categorias/profissional/data/${date}/jogos`);
+
+    return games;
+  }
 }
