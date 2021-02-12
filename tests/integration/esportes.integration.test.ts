@@ -1,13 +1,12 @@
-import util from 'util';
 import rp from 'request-promise';
-import { exec } from 'child_process';
+import { ApolloServer } from 'apollo-server';
+import { spawnBFFServer } from "../utils";
 
-const pExec = util.promisify(exec);
 const uri = 'http://localhost:4000/';
+let bffServer: ApolloServer;
 
 beforeAll(async () => {
-  // spawn EsportesAPI
-  // spawn GraphQL BFF
+  bffServer = await spawnBFFServer(4000);
 });
 
 describe('Teams', () => {
@@ -96,16 +95,9 @@ describe('Championship', () => {
               campeonato(id: "0") {
                 resultados {
                   campeonato_id
-                  nome
-                  slug
-                  genero
                 }
                 paginacao{
                   pagina
-                  anterior
-                  paginas
-                  por_pagina
-                  total
                 }
               }
             }
@@ -117,6 +109,5 @@ describe('Championship', () => {
 });
 
 afterAll(async () => {
-  // kill EsportesAPI
-  // kill GraphQL BFF
+  bffServer.stop();
 });
