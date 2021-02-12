@@ -1,0 +1,40 @@
+type Winner {
+  equipe_id: ID!
+  label: String!
+}
+
+type Game {
+  escalacao_mandante_id: ID
+  equipe_mandante_id: ID!
+  escalacao_visitante_id: ID
+  equipe_visitante_id: ID!
+  jogo_id: ID!
+  sede_id: ID!
+  fase_id: ID!
+  vencedor_jogo: Winner
+  suspenso: Boolean
+  rodada: Int!
+  wo: Boolean!
+  hora_realizacao: String!
+  placar_oficial_visitante: Int!
+  placar_penaltis_visitante: Int
+  decisivo: Boolean!
+  placar_penaltis_mandante: Int
+  cancelado: Boolean!
+  placar_oficial_mandante: Int!
+  data_realizacao: String!
+}
+
+type Games {
+  jogos: [Game!]
+}
+
+type GameResult {
+  resultados: Games!
+  referencias: References!
+  paginacao: Pagination!
+}
+
+type Query {
+  games(date: String!): GameResult
+}
