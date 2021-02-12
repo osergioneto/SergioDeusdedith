@@ -96,9 +96,6 @@ describe('Championship', () => {
                 resultados {
                   campeonato_id
                 }
-                paginacao{
-                  pagina
-                }
               }
             }
         `;
