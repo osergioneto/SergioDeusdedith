@@ -25,9 +25,72 @@ type Organization {
   escudos: Icons
 }
 
+type HeadQuarter {
+  sede_id: ID!
+  nome: String!
+  nome_popular: String
+  tipo: Type!
+}
+
+type Type {
+  tipo_id: ID!
+  descricao: String
+}
+
+type Champioship {
+  campeonato_id: ID!
+  genero: Gender!
+  nome: String!
+  slug: String
+}
+
+type Format {
+  formato_id: ID!
+  descricao: String
+}
+
+type Stage {
+  fase_id: ID!
+  edicao_id: ID!
+  slug: String
+  ordem: Int
+  data_fim: String!
+  data_inicio: String!
+  tipo: Type!
+  nome: String!
+  formato: Format!
+  atual: Boolean!
+  disclaimer: String
+}
+
+type Teams {
+  equipe_id: ID!
+  nome: String!
+  nome_popular: String
+  slug: String
+  genero: Gender!
+  escudos: Icons!
+  cores: Colors!
+  sigla: String
+  apelido: String
+}
+
+type Edition {
+  edicao_id: ID!
+  campeonato_id: ID!
+  nome: String
+  slug_editorial: String 
+  slug: String
+}
+
 type References {
   organizacoes: [Organization!]
   categorias: [Categories!]
   modalidades: [Modalities!]
   esportes: [Sports!]
+  sedes: [HeadQuarter!]
+  campeonatos: [Champioship!]
+  fases: [Stage!]
+  equipes: [Teams!]
+  edicoes: [Edition!]
 }
