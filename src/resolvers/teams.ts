@@ -25,7 +25,7 @@ export default {
   },
 }
 
-function parseReferences(references: any) {
+export function parseReferences(references: any) {
   const referenceKeys = Object.keys(references);
   const referenceValues = referenceKeys.map((key) => Object.values(references[key]));
 
