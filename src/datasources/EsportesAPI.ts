@@ -19,7 +19,13 @@ export default class EsportesAPI extends RESTDataSource {
     return team;
   }
 
-  async getChampionship(id: number, page = 1) {
-    return this.get(`esportes/futebol/modalidades/futebol_de_campo/categorias/profissional/campeonato/${id}`);
+  async getChampionship(id: number) {
+    const cachedChampioship = await this.redis.get(`esportes:champioship:${id}`);
+    if (cachedChampioship) { return JSON.parse(cachedChampioship); }
+
+    const champioship = await this.get(`esportes/futebol/modalidades/futebol_de_campo/categorias/profissional/campeonato/${id}`);
+    await this.redis.set(`esportes:champioship:${id}`, JSON.stringify(champioship), "EX", 300);
+
+    return champioship;
   }
 }
