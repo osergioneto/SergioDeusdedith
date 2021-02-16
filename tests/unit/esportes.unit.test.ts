@@ -1,63 +1,46 @@
-import { parseReferences } from "../../src/resolvers/teams";
+import { groupGameByDate, parseReferences, differenceNowInMinutes } from "../../src/resolvers/teams";
+import game from "./game.json";
 
-const references = {
-  "organizacoes": {
-    "81": {
-      "organizacao_id": 81,
-      "fundacao ": "1907-05-03",
-      "escudos": {
-        "60x60": "https://s.glbimg.com/es/sde/f/organizacoes/2012/04/27/fenerbahce65.png",
-        "30x30": "https://s.glbimg.com/es/sde/f/organizacoes/2012/04/27/fenerbahce30.png",
-        "svg": null,
-        "45x45": "https://s.glbimg.com/es/sde/f/organizacoes/2012/04/27/fenerbahce45.png"
-      },
-      "nome": "Fenerbahçe Spor Kulübü"
-    }
-  },
-  "categorias": {
-    "4": {
-      "esporte_id": 1,
-      "nome": "Profissional",
-      "slug": "profissional",
-      "categoria_id": 4
-    }
-  },
-  "modalidades": {
-    "1": {
-      "esporte_id": 1,
-      "modalidade_id": 1,
-      "slug": "futebol_de_campo",
-      "nome": "Futebol de campo"
-    }
-  },
-  "esportes": {
-    "1": {
-      "esporte_id": 1,
-      "slug": "futebol",
-      "nome": "Futebol"
-    }
-  }
-}
-
-
-describe('Teams', () => {
-  it('should parse references and match properties/values ', async () => {
-    const parsedReferences = parseReferences(references);
+describe('Sports', () => {
+  it('should parse references and match properties/values ', () => {
+    const parsedReferences = parseReferences(game.referencias);
 
     expect(parsedReferences).toMatchObject({
-      categorias: Array(expect.objectContaining({
-        categoria_id: expect.any(Number),
-      })),
-      organizacoes: Array(expect.objectContaining({
-        organizacao_id: expect.any(Number),
-      })),
-      modalidades: Array(expect.objectContaining({
-        modalidade_id: expect.any(Number),
-      })),
-      esportes: Array(expect.objectContaining({
-        esporte_id: expect.any(Number),
-      }))
+      sedes: expect.any(Array),
+      campeonatos: expect.any(Array),
+      fases: expect.any(Array),
+      equipes: expect.any(Array),
+      edicoes: expect.any(Array)
     });
+    expect(parsedReferences).toHaveProperty(['sedes', 0, 'sede_id']);
   });
 });
 
+describe('Games', () => {
+  it('should group games by state', () => {
+    const hourBetweenGames = new Date(2021, 1, 16, 14, 0, 0).getTime();
+    Date.now = jest.fn(() => hourBetweenGames);
+
+    const games = groupGameByDate(game.resultados.jogos);
+
+    expect(games.ao_vivo[0]).toHaveProperty("jogo_id");
+    expect(games.encerrado[0]).toHaveProperty("jogo_id");
+    expect(games.para_acontecer[0]).toHaveProperty("jogo_id");
+  });
+
+  it('should subtract two dates and return difference', () => {
+    const now = new Date(2021, 1, 16, 14, 0, 0);        // 14:00:00
+
+    const gameHour1 = new Date(2021, 1, 16, 10, 30, 0); // 10:30:00
+    const gameHour2 = new Date(2021, 1, 16, 13, 0, 0);  // 13:00:00
+    const gameHour3 = new Date(2021, 1, 16, 18, 30, 0); // 18:30:00
+
+    const gameDiff1 = differenceNowInMinutes(gameHour1, now);
+    const gameDiff2 = differenceNowInMinutes(gameHour2, now);
+    const gameDiff3 = differenceNowInMinutes(gameHour3, now);
+
+    expect(gameDiff1).toBe(-210);
+    expect(gameDiff2).toBe(-60);
+    expect(gameDiff3).toBe(270);
+  });
+});
