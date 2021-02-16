@@ -9,22 +9,24 @@ export default class EsportesAPI extends RESTDataSource {
     this.redis = new Redis();
   }
 
+  private CACHE_TTL = 30;
+
   async getTeam(id: number) {
-    const cachedTeam = await this.redis.get(`esportes:team:${id}`);
+    const cachedTeam = await this.redis.get(`sports:team#${id}`);
     if (cachedTeam) { return JSON.parse(cachedTeam); }
 
     const team = await this.get(`equipes/${id}`);
-    await this.redis.set(`esportes:team:${id}`, JSON.stringify(team), "EX", 100);
+    await this.redis.set(`sports:team#${id}`, JSON.stringify(team), "EX", this.CACHE_TTL);
 
     return team;
   }
 
   async getChampionship(id: number) {
-    const cachedChampioship = await this.redis.get(`esportes:champioship:${id}`);
+    const cachedChampioship = await this.redis.get(`sports:champioship#${id}`);
     if (cachedChampioship) { return JSON.parse(cachedChampioship); }
 
     const champioship = await this.get(`esportes/futebol/modalidades/futebol_de_campo/categorias/profissional/campeonato/${id}`);
-    await this.redis.set(`esportes:champioship:${id}`, JSON.stringify(champioship), "EX", 300);
+    await this.redis.set(`sports:champioship#${id}`, JSON.stringify(champioship), "EX", this.CACHE_TTL);
 
     return champioship;
   }
