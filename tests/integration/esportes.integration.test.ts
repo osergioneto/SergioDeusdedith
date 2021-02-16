@@ -9,7 +9,12 @@ beforeAll(async () => {
   bffServer = await spawnBFFServer(4000);
 });
 
-describe('Teams', () => {
+beforeEach(() => {
+  const hourBetweenGames = new Date(2021, 1, 16, 14, 0, 0).getTime();
+  Date.now = jest.fn(() => hourBetweenGames);
+})
+
+describe('Integration | Teams', () => {
   it.concurrent('fetches single team', async () => {
     const query = `
             query {
@@ -47,7 +52,7 @@ describe('Teams', () => {
   });
 });
 
-describe('Championship', () => {
+describe('Integration | Championship', () => {
   it.concurrent('fetches single championship', async () => {
     const query = `
             query {
@@ -95,6 +100,65 @@ describe('Championship', () => {
               campeonato(id: "0") {
                 resultados {
                   campeonato_id
+                }
+              }
+            }
+        `;
+
+    const res = await rp({ method: 'POST', uri, body: { query }, json: true });
+    expect(res.errors[0].message).toEqual("404: Not Found");
+  });
+});
+
+describe.only('Integration | Games', () => {
+  it.concurrent('fetches single game', async () => {
+    const query = `
+            query {
+              games(date: "2019-01-02") {
+                resultados {
+                  jogos {
+                    encerrado {
+                      jogo_id
+                    }
+                    ao_vivo {
+                      jogo_id
+                    }
+                  }
+                }
+              }
+            }
+        `;
+
+
+
+    const res = await rp({ method: 'POST', uri, body: { query }, json: true });
+    expect(res.data).toMatchObject({
+      "games": {
+        "resultados": {
+          "jogos": {
+            "encerrado": [],
+            "ao_vivo": [
+              { "jogo_id": "227045" },
+              { "jogo_id": "227047" },
+              { "jogo_id": "227048" },
+              { "jogo_id": "227052" }
+            ]
+          }
+        },
+      }
+    });
+  });
+
+  it.concurrent('should throw when game is not found', async () => {
+    const query = `
+            query {
+              games(date: "2019-13-35") {
+                resultados {
+                  jogos {
+                    encerrado {
+                      jogo_id
+                    }
+                  }
                 }
               }
             }
