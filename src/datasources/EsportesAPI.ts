@@ -32,7 +32,12 @@ export default class EsportesAPI extends RESTDataSource {
   }
 
   async getGames(date: string) {
+    const gameID = date.replace(/-/gi, ".");
+    const cachedGames = await this.redis.get(`sports:games#${gameID}`);
+    if (cachedGames) { return JSON.parse(cachedGames); }
+
     const games = await this.get(`esportes/futebol/modalidades/futebol_de_campo/categorias/profissional/data/${date}/jogos`);
+    await this.redis.set(`sports:games#${gameID}`, JSON.stringify(games), "EX", this.CACHE_TTL);
 
     return games;
   }
