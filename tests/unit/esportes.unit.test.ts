@@ -1,6 +1,16 @@
 import { groupGameByDate, parseReferences, differenceNowInMinutes } from "../../src/resolvers/teams";
 import game from "./game.json";
 
+let dateNowSpy: any;
+
+beforeAll(() => {
+  dateNowSpy = jest.spyOn(Date, 'now').mockImplementation(() => 1546362000000);
+});
+
+afterAll(() => {
+  dateNowSpy.mockRestore();
+});
+
 describe('Sports', () => {
   it('should parse references and match properties/values ', () => {
     const parsedReferences = parseReferences(game.referencias);
@@ -18,9 +28,6 @@ describe('Sports', () => {
 
 describe('Games', () => {
   it('should group games by state', () => {
-    const hourBetweenGames = new Date(2021, 1, 16, 14, 0, 0).getTime();
-    Date.now = jest.fn(() => hourBetweenGames);
-
     const games = groupGameByDate(game.resultados.jogos);
 
     expect(games.ao_vivo[0]).toHaveProperty("jogo_id");
@@ -29,11 +36,11 @@ describe('Games', () => {
   });
 
   it('should subtract two dates and return difference', () => {
-    const now = new Date(2021, 1, 16, 14, 0, 0);        // 14:00:00
+    const now = new Date(Date.now());        // 14:00:00
 
-    const gameHour1 = new Date(2021, 1, 16, 10, 30, 0); // 10:30:00
-    const gameHour2 = new Date(2021, 1, 16, 13, 0, 0);  // 13:00:00
-    const gameHour3 = new Date(2021, 1, 16, 18, 30, 0); // 18:30:00
+    const gameHour1 = new Date(2019, 0, 1, 10, 30, 0); // 10:30:00
+    const gameHour2 = new Date(2019, 0, 1, 13, 0, 0);  // 13:00:00
+    const gameHour3 = new Date(2019, 0, 1, 18, 30, 0); // 18:30:00
 
     const gameDiff1 = differenceNowInMinutes(gameHour1, now);
     const gameDiff2 = differenceNowInMinutes(gameHour2, now);
