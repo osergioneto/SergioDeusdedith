@@ -49,7 +49,7 @@ export function parseReferences(references: any) {
 
 export function groupGameByDate(games: Game[]) {
   const groupedGames = games.reduce<{ encerrado: Array<Game>, ao_vivo: Array<Game>, para_acontecer: Array<Game> }>((acc, curr) => {
-    const gameHour = parse(curr.hora_realizacao, "HH:mm:ss", new Date());
+    const gameHour = parse(curr.hora_realizacao, "HH:mm:ss", new Date(Date.now()));
     const minutes = differenceNowInMinutes(gameHour);
 
     if (minutes <= -120) {
