@@ -26,9 +26,9 @@ type Game {
 }
 
 type GameState {
-  encerrado: [Game!]
-  ao_vivo: [Game!]
-  para_acontecer: [Game!]
+  encerrado: [Game]!
+  ao_vivo: [Game]!
+  para_acontecer: [Game]!
 }
 
 type Games {

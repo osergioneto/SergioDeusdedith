@@ -1,5 +1,5 @@
-import { TeamResult, ChampionshipResult, Game, GameResult } from "generated/api";
-import { parse, formatDistanceStrict, isAfter, differenceInMinutes } from "date-fns";
+import { TeamResult, ChampionshipResult, Game, GameResult, GameState } from "generated/api";
+import { parse, formatDistanceStrict, isAfter, differenceInMinutes, isToday, parseISO, getTime, isTomorrow, isBefore, getDate, fromUnixTime, isSameDay } from "date-fns";
 // import { parse, formatDistanceStrictWithOptions } from "date-fns/fp";
 
 export default {
@@ -48,16 +48,17 @@ export function parseReferences(references: any) {
 }
 
 export function groupGameByDate(games: Game[]) {
-  const groupedGames = games.reduce<{ encerrado: Array<Game>, ao_vivo: Array<Game>, para_acontecer: Array<Game> }>((acc, curr) => {
-    const gameHour = parse(curr.hora_realizacao, "HH:mm:ss", new Date(Date.now()));
-    const minutes = differenceNowInMinutes(gameHour);
+  const groupedGames = games.reduce<GameState>((acc, curr) => {
+    const gameDate = parseISO(curr.data_realizacao);
+    const today = new Date(Date.now());
 
-    if (minutes <= -120) {
-      acc.encerrado.push(curr);
-    } else if (minutes > -120 && minutes <= 0) {
-      acc.ao_vivo.push(curr);
-    } else {
-      acc.para_acontecer.push(curr);
+    switch (true) {
+      case isSameDay(gameDate, today):
+        classifyTodayGames(curr, acc); break;
+      case isBefore(gameDate, today):
+        acc.encerrado.push(curr); break;
+      case isAfter(gameDate, today):
+        acc.para_acontecer.push(curr); break;
     }
 
     return acc;
@@ -75,4 +76,19 @@ export function differenceNowInMinutes(gameHour: Date | number, hourNow: Date | 
   if (isAfter(hourNow, gameHour)) { multiplier = -1; }
 
   return Number(formatDistanceStrict(Date.now(), gameHour, { unit: "minute" }).replace(/\s.*/gi, "")) * multiplier;
+}
+
+export function classifyTodayGames(game: Game, accumulator: GameState) {
+  const gameHour = parse(game.hora_realizacao, "HH:mm:ss", new Date(Date.now()));
+  const differenceInMinutes = differenceNowInMinutes(gameHour);
+
+  if (differenceInMinutes <= -120) {
+    accumulator.encerrado.push(game);
+  } else if (differenceInMinutes > -120 && differenceInMinutes <= 0) {
+    accumulator.ao_vivo.push(game);
+  } else {
+    accumulator.para_acontecer.push(game);
+  }
+
+  return accumulator;
 }
