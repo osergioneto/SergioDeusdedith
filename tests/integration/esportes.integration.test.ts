@@ -9,10 +9,6 @@ beforeAll(async () => {
   bffServer = await spawnBFFServer(4000);
 });
 
-beforeEach(() => {
-  const hourBetweenGames = new Date(2021, 1, 16, 14, 0, 0).getTime();
-  Date.now = jest.fn(() => hourBetweenGames);
-})
 
 describe('Integration | Teams', () => {
   it.concurrent('fetches single team', async () => {
@@ -110,7 +106,7 @@ describe('Integration | Championship', () => {
   });
 });
 
-describe.only('Integration | Games', () => {
+describe('Integration | Games', () => {
   it.concurrent('fetches single game', async () => {
     const query = `
             query {
@@ -132,21 +128,8 @@ describe.only('Integration | Games', () => {
 
 
     const res = await rp({ method: 'POST', uri, body: { query }, json: true });
-    expect(res.data).toMatchObject({
-      "games": {
-        "resultados": {
-          "jogos": {
-            "encerrado": [],
-            "ao_vivo": [
-              { "jogo_id": "227045" },
-              { "jogo_id": "227047" },
-              { "jogo_id": "227048" },
-              { "jogo_id": "227052" }
-            ]
-          }
-        },
-      }
-    });
+    expect(res.data.games.resultados.jogos.encerrado).toHaveLength(16);
+    expect(res.data.games.resultados.jogos.ao_vivo).toHaveLength(0);
   });
 
   it.concurrent('should throw when game is not found', async () => {
