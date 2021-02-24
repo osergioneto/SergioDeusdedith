@@ -1,6 +1,12 @@
 ## Sérgio Deusdedith
 **Globo.com: coding challenge**
 
+<p align="left">
+  <a href="CONFIG.md">CONFIG</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="HISTORY.md">HISTORY </a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="TODO.md">TODO</a>&nbsp;&nbsp;&nbsp;
+</p>
+
 ====================
 #### Considerações Gerais
 Você deverá usar este repositório como o repo principal do projeto, i.e., todos os seus commits devem estar registrados aqui, pois queremos ver como você trabalha.
