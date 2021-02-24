@@ -1,5 +1,5 @@
 overwrite: true
-schema: "src/types/*.gql"
+schema: "src/typedefs/*.gql"
 documents: null
 generates:
   src/generated/api.ts:

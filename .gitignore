@@ -105,3 +105,4 @@ dist
 
 src/generated/*
 ./coverage
+build/
