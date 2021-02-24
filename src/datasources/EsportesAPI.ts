@@ -2,14 +2,14 @@ import { RESTDataSource } from "apollo-datasource-rest";
 import Redis from "ioredis";
 
 export default class EsportesAPI extends RESTDataSource {
-  redis: Redis.Redis;
-  constructor() {
+  private redis;
+  private CACHE_TTL = 300;
+
+  constructor(redis: Redis.Redis) {
     super();
     this.baseURL = `http://localhost:8080/`;
-    this.redis = new Redis();
+    this.redis = redis;
   }
-
-  private CACHE_TTL = 30;
 
   async getTeam(id: number) {
     const cachedTeam = await this.redis.get(`sports:team#${id}`);

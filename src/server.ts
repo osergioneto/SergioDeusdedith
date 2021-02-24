@@ -1,13 +1,17 @@
 import express from "express";
 import { ApolloServer, gql } from "apollo-server-express";
+require("dotenv").config();
 import EsportesAPI from "./datasources/EsportesAPI";
 import schema from "./schema";
+import Redis from "ioredis";
+
+const redis = new Redis();
 
 const server = new ApolloServer({
   schema,
   dataSources: () => {
     return {
-      esportesAPI: new EsportesAPI()
+      esportesAPI: new EsportesAPI(redis)
     }
   },
 });
