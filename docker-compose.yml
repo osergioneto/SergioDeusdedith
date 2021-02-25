@@ -10,6 +10,7 @@ services:
       - REDIS_HOST=redis-cache
       - ESPORTE_API_PORT=8080
       - ESPORTE_API_URL=http://esportes-api
+      - CACHE_TTL=43200
     ports:
       - "4000:4000"
     links:

@@ -1,9 +1,9 @@
 import { RESTDataSource } from "apollo-datasource-rest";
 import Redis from "ioredis";
+const CACHE_TTL = process.env.CACHE_TTL ?? 43200;
 
 export default class EsportesAPI extends RESTDataSource {
   private redis;
-  private CACHE_TTL = 300;
 
   constructor(redis: Redis.Redis) {
     super();
@@ -16,7 +16,7 @@ export default class EsportesAPI extends RESTDataSource {
     if (cachedTeam) { return JSON.parse(cachedTeam); }
 
     const team = await this.get(`equipes/${id}`);
-    await this.redis.set(`sports:team#${id}`, JSON.stringify(team), "EX", this.CACHE_TTL);
+    await this.redis.set(`sports:team#${id}`, JSON.stringify(team), "EX", CACHE_TTL);
 
     return team;
   }
@@ -26,7 +26,7 @@ export default class EsportesAPI extends RESTDataSource {
     if (cachedChampioship) { return JSON.parse(cachedChampioship); }
 
     const champioship = await this.get(`esportes/futebol/modalidades/futebol_de_campo/categorias/profissional/campeonato/${id}`);
-    await this.redis.set(`sports:champioship#${id}`, JSON.stringify(champioship), "EX", this.CACHE_TTL);
+    await this.redis.set(`sports:champioship#${id}`, JSON.stringify(champioship), "EX", CACHE_TTL);
 
     return champioship;
   }
@@ -37,7 +37,7 @@ export default class EsportesAPI extends RESTDataSource {
     if (cachedGames) { return JSON.parse(cachedGames); }
 
     const games = await this.get(`esportes/futebol/modalidades/futebol_de_campo/categorias/profissional/data/${date}/jogos`);
-    await this.redis.set(`sports:games#${gameID}`, JSON.stringify(games), "EX", this.CACHE_TTL);
+    await this.redis.set(`sports:games#${gameID}`, JSON.stringify(games), "EX", CACHE_TTL);
 
     return games;
   }

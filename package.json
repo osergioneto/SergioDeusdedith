@@ -4,16 +4,14 @@
   "description": "**Globo.com: coding challenge**",
   "main": "src/server.js",
   "scripts": {
+    "start": "docker-compose up --build",
     "build": "tsc",
+    "dev": "nodemon --watch 'src/**/*' --exec 'ts-node src/server.ts' -e ts",
     "test": "jest --verbose --coverage --detectOpenHandles",
     "test:unit": "jest --verbose --detectOpenHandles --testPathPattern=tests/unit",
     "test:integration": "jest --verbose --detectOpenHandles --testPathPattern=tests/integration",
     "test:load": "artillery run tests/load/artillery.yml",
-    "dev": "nodemon --watch 'src/**/*' --exec 'ts-node src/server.ts' -e ts",
-    "generate": "graphql-codegen --config codegen.yml",
-    "start": "npm run start:bff && npm run start:esportes-api",
-    "start:esportes-api": "cd esportes-api && docker-compose up --build",
-    "start:bff": "docker-compose up --build"
+    "generate": "graphql-codegen --config codegen.yml"
   },
   "repository": {
     "type": "git",
