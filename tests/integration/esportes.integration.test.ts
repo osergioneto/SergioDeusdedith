@@ -2,7 +2,7 @@ import rp from 'request-promise';
 import { ApolloServer } from 'apollo-server';
 import { spawnBFFServer } from "../utils";
 
-const uri = 'http://localhost:4000/';
+const uri = `http://${process.env.APP_URL}:${process.env.PORT}/`;
 let bffServer: ApolloServer;
 
 beforeAll(async () => {
