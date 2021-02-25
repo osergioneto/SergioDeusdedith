@@ -5,7 +5,7 @@ import EsportesAPI from "./datasources/EsportesAPI";
 import schema from "./schema";
 import Redis from "ioredis";
 
-const redis = new Redis();
+const redis = new Redis({ host: process.env.REDIS_HOST });
 
 const server = new ApolloServer({
   schema,

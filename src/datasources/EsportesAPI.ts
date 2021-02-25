@@ -7,7 +7,7 @@ export default class EsportesAPI extends RESTDataSource {
 
   constructor(redis: Redis.Redis) {
     super();
-    this.baseURL = `http://localhost:8080/`;
+    this.baseURL = `${process.env.ESPORTE_API_URL}:${process.env.ESPORTE_API_PORT}/`;
     this.redis = redis;
   }
 

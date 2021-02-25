@@ -1,29 +1,28 @@
 version: "3.8"
 
 services:
-  app:
+  globe-bff:
     build: .
-    container_name: app
+    container_name: globe-bff
     restart: always
     environment:
       - PORT=4000
+      - REDIS_HOST=redis-cache
+      - ESPORTE_API_PORT=8080
+      - ESPORTE_API_URL=http://esportes-api
     ports:
       - "4000:4000"
     links:
       - redis
-    depends_on:
-      - redis
-    networks:
-      - sergiodeusdedith_default
+      - esportes-api
   redis:
     container_name: redis-cache
     image: redis:alpine
     ports:
       - "6379:6379"
-    networks:
-      - sergiodeusdedith_default
-
-networks:
-  sergiodeusdedith_default:
-    external:
-      name: sergiodeusdedith_default
+  esportes-api:
+    build: ./esportes-api
+    restart: always
+    container_name: esportes-api
+    ports:
+      - "8080:8080"
