@@ -1,12 +1,17 @@
 config:
   target: "http://localhost:4000"
+  payload: 
+    path: "load.csv"
+    fields:
+      - "team_id"
+      - "date"
   phases:
     - duration: 20
       arrivalRate: 5
       name: Warm up
     - duration: 60
       arrivalRate: 1500
-      rampTo: 50
+      rampTo: 100
       name: Ramp up load
     # - duration: 60
     #   arrivalRate: 5
@@ -18,11 +23,26 @@ scenarios:
           json:
             query: |
               {
-                equipes(id: 52) {
+                equipes(id: {{ team_id }}) {
                   resultados{
                     status {
                       status_id
                       descricao
+                    }
+                  }
+                }
+                games(date:"{{ date }}") {
+                  resultados {
+                    jogos {
+                      encerrado {
+                        jogo_id
+                      }
+                      ao_vivo {
+                        jogo_id
+                      }
+                      para_acontecer {
+                        jogo_id
+                      }
                     }
                   }
                 }
