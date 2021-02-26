@@ -5,7 +5,8 @@ module.exports = {
   collectCoverage: true,
   collectCoverageFrom: [
     "src/resolvers/*.{ts,js}",
-    "src/datasources/*.{ts,js}"
+    "src/datasources/*.{ts,js}",
+    "src/utils.{ts,js}"
   ],
   coverageDirectory: "./coverage",
 };

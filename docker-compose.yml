@@ -11,6 +11,9 @@ services:
       - ESPORTE_API_PORT=8080
       - ESPORTE_API_URL=http://esportes-api
       - CACHE_TTL=43200
+      - CIRCUIT_BREAKER_TIMEOUT=2000
+      - CIRCUIT_BREAKER_THRESHOLD_PERCENTAGE=50
+      - CIRCUIT_BREAKER_RESET_TIMEOUT=5000
     ports:
       - "4000:4000"
     links:
