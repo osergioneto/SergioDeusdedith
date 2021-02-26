@@ -1,21 +1,21 @@
 import { TeamResult, ChampionshipResult, Game, GameResult, GameState } from "generated/api";
-import { parse, formatDistanceStrict, isAfter, differenceInMinutes, isToday, parseISO, getTime, isTomorrow, isBefore, getDate, fromUnixTime, isSameDay } from "date-fns";
-// import { parse, formatDistanceStrictWithOptions } from "date-fns/fp";
+import { parse, formatDistanceStrict, isAfter, parseISO, isBefore, isSameDay } from "date-fns";
+import { breaker } from "../utils";
 
 export default {
   Query: {
-    equipes: async (_ctx: any, { id }: any, { dataSources }: any): Promise<TeamResult> => {
-      const { resultados, referencias, paginacao }: TeamResult = await dataSources.esportesAPI.getTeam(id);
+    equipes: async (_ctx: any, { id }: any, { dataSources }: any): Promise<any> => {
+      const { resultados, referencias, paginacao }: TeamResult = await breaker.fire("getTeam", id, dataSources);
       const parsedReferences = parseReferences(referencias);
 
       return {
-        resultados,
+        resultados: resultados,
         referencias: parsedReferences,
-        paginacao
+        paginacao: paginacao
       };
     },
     campeonato: async (_ctx: any, { id }: any, { dataSources }: any): Promise<ChampionshipResult> => {
-      const { resultados, referencias, paginacao }: ChampionshipResult = await dataSources.esportesAPI.getChampionship(id);
+      const { resultados, referencias, paginacao }: ChampionshipResult = await breaker.fire("getChampionship", id, dataSources);
       const parsedReferences = parseReferences(referencias);
 
       return {
@@ -25,7 +25,7 @@ export default {
       };
     },
     games: async (_ctx: any, { date }: any, { dataSources }: any): Promise<GameResult> => {
-      const { resultados, referencias, paginacao } = await dataSources.esportesAPI.getGames(date);
+      const { resultados, referencias, paginacao } = await breaker.fire("getGames", date, dataSources);
       const parsedReferences = parseReferences(referencias);
       const jogos = groupGameByDate(resultados.jogos);
 
@@ -38,6 +38,7 @@ export default {
   },
 }
 
+// TODO: Isolar resolver de jogos e suas funções
 export function parseReferences(references: any) {
   const referenceKeys = Object.keys(references);
   const referenceValues = referenceKeys.map((key) => Object.values(references[key]));
