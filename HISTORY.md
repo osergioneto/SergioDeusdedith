@@ -30,3 +30,11 @@ Possiveis soluções:
 - Também estou pensando uma forma de atualizar apenas o cache do jogo que está ocorrendo. A API de Esportes responde todos os jogos que irão ocorrer naquele dia
 - Usar uma técnica parecida com Debounce. Caso não haja cache para jogos que estão acontecendo porém já foram feitas requisições tenha sido
 - Possibilidade de usar fila 
+
+## Adição de Circuit Breaker
+
+Ao analisar o cenário descrito no [README](README.md), no qual pode haver o retorno de muitos erros em curto espaço de tempo. Lembrei de uma [palestra que vi sobre a votação do BBB](https://www.youtube.com/watch?v=byoQsLNESy8) e como implementaram o padrão Circuit Breaker. Pode ser uma boa para essa situação.
+
+Dois links interessantes que encontrei foram esses:
+- [Node.js Resiliency Concepts: The Circuit Breaker](https://blog.appsignal.com/2020/07/22/nodejs-resiliency-concepts-the-circuit-breaker.html)
+- [CircuitBreaker](https://martinfowler.com/bliki/CircuitBreaker.html)
