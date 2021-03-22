@@ -44,13 +44,13 @@
 
 ```bash
 # Digite o comando abaixo para clonar o repositŕio
-$ git clone https://github.com/osergioneto/globe-ge-bff
+$ git clone https://github.com/osergioneto/SergioDeusdedith.git
 ```
 
 ### 2. Instalar dependências
 ```bash
 # Vá para a pasta do repositório
-$ cd globe-ge-bff 
+$ cd SergioDeusdedith
 
 # Instale as dependências
 $ npm i
