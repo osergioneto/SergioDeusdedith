@@ -1,5 +1,5 @@
 import rp from 'request-promise';
-import { ApolloServer } from 'apollo-server';
+import { ApolloServer } from 'apollo-server-express';
 import { spawnBFFServer } from "../utils";
 import { GET_CHAMPIOSHIP, GET_GAME, GET_TEAM } from "./queries";
 
